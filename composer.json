@@ -1,0 +1,21 @@
+{
+    "name": "phoogkamer/cloudsearch-wrapper",
+    "description": "",
+    "keywords": ["aws", "cloudsearch", "amazon"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Patrick Hoogkamer",
+            "email": "patrickhoogkamer@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "aws/aws-sdk-php": "2.*"
+    },
+    "autoload": {
+        "psr-0" : {
+            "PHoogkamer\\CloudSearchWrapper" : "src"
+        }
+    }
+}

@@ -1,9 +1,9 @@
-<?php
+<?php namespace PHoogkamer\CloudSearchWrapper;
 
 /**
- * Class CloudSearchQuery
+ * Class CloudSearchStructuredQuery
  */
-class CloudSearchQuery {
+class CloudSearchStructuredQuery {
 
 	private $query;
 

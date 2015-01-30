@@ -1,7 +1,7 @@
 {
     "name": "phoogkamer/cloudsearch-wrapper",
     "description": "",
-    "keywords": ["aws"],
+    "keywords": ["aws", "cloudsearch", "amazon"],
     "license": "MIT",
     "authors": [
         {

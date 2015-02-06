@@ -50,10 +50,12 @@ class CloudSearchDocument {
 	 */
 	public function getDocument()
 	{
-		return [
+		$document = [
 			'type'		=> 'add',
 			'id'		=> $this->id,
 			'fields'	=> $this->fields
 		];
+
+		return array_filter($document);
 	}
 }

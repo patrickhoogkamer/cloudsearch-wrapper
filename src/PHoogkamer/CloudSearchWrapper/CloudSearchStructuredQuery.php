@@ -20,6 +20,11 @@ class CloudSearchStructuredQuery {
 
 	}
 
+	public function matchAll()
+	{
+		$this->query = 'matchall';
+	}
+
 	/**
 	 * @param int $size
 	 */

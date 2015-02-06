@@ -33,13 +33,15 @@ class CloudSearchClient {
 		$args = array(
 			'queryParser' 	=> 'structured',
 			'query' 		=> $query->getQuery(),
-			'size'			=> 3
+			'size'			=> $query->getSize()
 		);
 
 		if( ! is_null($filterQuery))
 		{
 			$args['filterQuery'] = $filterQuery->getQuery();
 		}
+
+		$args = array_filter($args);
 
 		//TODO CloudSearchResult class
 		return $this->client->search($args);

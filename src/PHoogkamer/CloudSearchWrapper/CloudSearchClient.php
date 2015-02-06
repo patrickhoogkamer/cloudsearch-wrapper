@@ -41,6 +41,8 @@ class CloudSearchClient {
 			$args['filterQuery'] = $filterQuery->getQuery();
 		}
 
+		$args = array_filter($args);
+
 		//TODO CloudSearchResult class
 		return $this->client->search($args);
 	}

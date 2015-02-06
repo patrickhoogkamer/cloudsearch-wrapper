@@ -33,7 +33,7 @@ class CloudSearchClient {
 		$args = array(
 			'queryParser' 	=> 'structured',
 			'query' 		=> $query->getQuery(),
-			'size'			=> 3
+			'size'			=> $query->getSize()
 		);
 
 		if( ! is_null($filterQuery))

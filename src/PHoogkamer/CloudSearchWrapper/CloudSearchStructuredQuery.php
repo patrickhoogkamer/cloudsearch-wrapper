@@ -8,11 +8,32 @@ class CloudSearchStructuredQuery {
 	private $query;
 
 	/**
+	 * @var int
+	 */
+	private $size;
+
+	/**
 	 *
 	 */
 	public function __construct()
 	{
 
+	}
+
+	/**
+	 * @param int $size
+	 */
+	public function setSize($size)
+	{
+		$this->size = (int) $size;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getSize()
+	{
+		return $this->size;
 	}
 
 	/**

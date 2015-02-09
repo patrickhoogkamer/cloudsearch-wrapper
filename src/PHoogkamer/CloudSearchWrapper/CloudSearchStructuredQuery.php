@@ -119,7 +119,7 @@ class CloudSearchStructuredQuery {
 	 * @param callable $function
 	 * @return $this
 	 */
-	public function addOr(Closure $function)
+	public function addOr(\Closure $function)
 	{
 		$this->query .= '(or ';
 
@@ -134,7 +134,7 @@ class CloudSearchStructuredQuery {
 	 * @param callable $function
 	 * @return $this
 	 */
-	public function addAnd(Closure $function)
+	public function addAnd(\Closure $function)
 	{
 		$this->query .= '(and ';
 

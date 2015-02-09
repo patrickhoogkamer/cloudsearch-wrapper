@@ -51,7 +51,7 @@ class CloudSearchDocument {
 	public function getDocument()
 	{
 		$document = [
-			'type'		=> 'add',
+			'type'		=> $this->type,
 			'id'		=> $this->id,
 			'fields'	=> $this->fields
 		];

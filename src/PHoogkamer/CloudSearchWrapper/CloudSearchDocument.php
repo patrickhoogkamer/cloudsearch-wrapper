@@ -5,15 +5,32 @@
  */
 class CloudSearchDocument {
 
+    /**
+     * The document id overwrites the document already in CloudSearch with the same id.
+     *
+     * @var string
+     */
 	private $id;
 
+    /**
+     * Associative array with fields.
+     *
+     * @var array
+     */
 	private $fields;
 
+    /**
+     * Document type, currently either 'add' or 'delete'.
+     *
+     * @var string
+     */
 	private $type;
 
 	//TODO magic getter and setter for individual fields
 
 	/**
+     * Document always needs an $id.
+     *
 	 * @param $id
 	 */
 	public function __construct($id)
@@ -22,6 +39,8 @@ class CloudSearchDocument {
 	}
 
 	/**
+     * Set the document fields by associative array.
+     *
 	 * @param array $fields
 	 * @param bool  $filterNullFields
 	 */
@@ -35,17 +54,25 @@ class CloudSearchDocument {
 		$this->fields = $fields;
 	}
 
+    /**
+     * Set the document type to 'add'.
+     */
 	public function setTypeAdd()
 	{
 		$this->type = 'add';
 	}
 
+    /**
+     * Set the document type to 'delete'.
+     */
 	public function setTypeDelete()
 	{
 		$this->type = 'delete';
 	}
 
 	/**
+     * Get the actual document to be pushed.
+     *
 	 * @return array
 	 */
 	public function getDocument()

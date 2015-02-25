@@ -1,36 +1,44 @@
 <?php namespace PHoogkamer\CloudSearchWrapper;
 
 /**
+ * Used to construct a structured query used by CloudSearchClient.
+ *
  * Class CloudSearchStructuredQuery
  */
 class CloudSearchStructuredQuery {
 
+    /**
+     * Concatenated structured query.
+     *
+     * @var string
+     */
 	private $query;
 
 	/**
+     * The query size.
+     *
 	 * @var int
 	 */
 	private $size;
 
     /**
+     * The facet fields used for the query.
+     *
      * @var array
      */
     private $facet;
 
-	/**
-	 *
-	 */
-	public function __construct()
-	{
-
-	}
-
+    /**
+     * Set query to match all documents, this erases the previous query entries.
+     */
 	public function matchAll()
 	{
 		$this->query = 'matchall';
 	}
 
 	/**
+     * The max result size (search returns $size items)
+     *
 	 * @param int $size
 	 */
 	public function setSize($size)
@@ -39,6 +47,8 @@ class CloudSearchStructuredQuery {
 	}
 
 	/**
+     * Mainly used by the CloudSearchClient::search() method, gets the size.
+     *
 	 * @return int
 	 */
 	public function getSize()
@@ -47,6 +57,8 @@ class CloudSearchStructuredQuery {
 	}
 
     /**
+     * Set facet array in the same way as the AWS SDK.
+     *
      * @param array $facet
      */
     public function setFacet(array $facet)
@@ -55,6 +67,8 @@ class CloudSearchStructuredQuery {
     }
 
     /**
+     * Used by CloudSearchClient::search() to set the facet parameter.
+     *
      * @return string
      */
     public function getFacet()
@@ -63,6 +77,8 @@ class CloudSearchStructuredQuery {
     }
 
 	/**
+     * Add a field to query, add string value by setting $isString as true.
+     *
 	 * @param      $key
 	 * @param      $value
 	 * @param bool $isString
@@ -80,6 +96,8 @@ class CloudSearchStructuredQuery {
 	}
 
 	/**
+     * Implementation of the range field. $isString for string ranges.
+     *
 	 * @param      $key
 	 * @param null $from
 	 * @param null $to
@@ -122,6 +140,8 @@ class CloudSearchStructuredQuery {
 	}
 
 	/**
+     * Concat the query together in a safe way.
+     *
 	 * @param $field
 	 */
 	private function concatField($field)
@@ -137,6 +157,8 @@ class CloudSearchStructuredQuery {
 	}
 
 	/**
+     * Add an OR statement to the query. Pass a closure to set the fields (or other AND/OR statements) in it.
+     *
 	 * @param callable $function
 	 * @return $this
 	 */
@@ -152,6 +174,8 @@ class CloudSearchStructuredQuery {
 	}
 
 	/**
+     * Add an AND statement to the query. Pass a closure to set the fields (or other AND/OR statements) in it.
+     *
 	 * @param callable $function
 	 * @return $this
 	 */
@@ -166,6 +190,11 @@ class CloudSearchStructuredQuery {
 		return $this;
 	}
 
+    /**
+     * Get the concatenated query. Used by CloudSearchClient::search().
+     *
+     * @return string
+     */
 	public function getQuery()
 	{
 		return $this->query;

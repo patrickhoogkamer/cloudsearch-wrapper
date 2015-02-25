@@ -35,17 +35,17 @@ $query->addAnd(function(CloudSearchStructuredQuery $query)
     $query->addOr(function(CloudSearchStructuredQuery $query)
     {
         //Add string by setting the second parameter true
-        $this->addField('title', 'Forged Alliance', true);
+        $query->addField('title', 'Forged Alliance', true);
 
-        $this->addField('title', 'Supreme Commander', true);
+        $query->addField('title', 'Supreme Commander', true);
     });
 
     $query->addOr(function(CloudSearchStructuredQuery $query)
     {
-        $this->addField('id', 1);
+        $query->addField('id', 1);
 
         //Gets everything within a range from 2 to 5
-        $this->addRangeField('id', 2, 5);
+        $query->addRangeField('id', 2, 5);
     });
 });
 ```

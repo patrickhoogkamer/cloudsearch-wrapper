@@ -36,6 +36,13 @@ class CloudSearchClient {
 			'size'			=> $query->getSize()
 		);
 
+        $facet = $query->getFacet();
+
+        if( ! empty($facet))
+        {
+            $args['facet'] = $facet;
+        }
+
 		if( ! is_null($filterQuery))
 		{
 			$args['filterQuery'] = $filterQuery->getQuery();

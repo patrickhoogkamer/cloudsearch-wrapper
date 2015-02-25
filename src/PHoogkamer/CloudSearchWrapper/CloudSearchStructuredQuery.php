@@ -12,6 +12,11 @@ class CloudSearchStructuredQuery {
 	 */
 	private $size;
 
+    /**
+     * @var array
+     */
+    private $facet;
+
 	/**
 	 *
 	 */
@@ -40,6 +45,22 @@ class CloudSearchStructuredQuery {
 	{
 		return $this->size;
 	}
+
+    /**
+     * @param array $facet
+     */
+    public function setFacet(array $facet)
+    {
+        $this->facet = $facet;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacet()
+    {
+        return json_encode($this->facet);
+    }
 
 	/**
 	 * @param      $key

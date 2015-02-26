@@ -80,12 +80,12 @@ class CloudSearchResult {
     {
         $this->hits = [];
 
-        foreach($hits as $hit)
+        foreach ($hits as $hit)
         {
             /* @var $document CloudSearchDocumentInterface */
             $document = new $resultDocumentClass();
 
-            if( ! ($document instanceof CloudSearchDocumentInterface))
+            if(!($document instanceof CloudSearchDocumentInterface))
             {
                 throw new \Exception($resultDocumentClass . ' must implement CloudSearchDocumentInterface');
             }

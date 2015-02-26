@@ -12,14 +12,14 @@ class CloudSearchStructuredQuery {
      *
      * @var string
      */
-	private $query;
+    private $query;
 
-	/**
+    /**
      * The query size.
      *
-	 * @var int
-	 */
-	private $size;
+     * @var int
+     */
+    private $size;
 
     /**
      * The facet fields used for the query.
@@ -31,30 +31,30 @@ class CloudSearchStructuredQuery {
     /**
      * Set query to match all documents, this erases the previous query entries.
      */
-	public function matchAll()
-	{
-		$this->query = 'matchall';
-	}
+    public function matchAll()
+    {
+        $this->query = 'matchall';
+    }
 
-	/**
+    /**
      * The max result size (search returns $size items)
      *
-	 * @param int $size
-	 */
-	public function setSize($size)
-	{
-		$this->size = (int) $size;
-	}
+     * @param int $size
+     */
+    public function setSize($size)
+    {
+        $this->size = (int)$size;
+    }
 
-	/**
+    /**
      * Mainly used by the CloudSearchClient::search() method, gets the size.
      *
-	 * @return int
-	 */
-	public function getSize()
-	{
-		return $this->size;
-	}
+     * @return int
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
 
     /**
      * Set facet array in the same way as the AWS SDK.
@@ -89,127 +89,127 @@ class CloudSearchStructuredQuery {
         return json_encode($this->facet);
     }
 
-	/**
+    /**
      * Add a field to query, add string value by setting $isString as true.
      *
-	 * @param      $key
-	 * @param      $value
-	 * @param bool $isString
-	 */
-	public function addField($key, $value, $isString = false)
-	{
-		if($isString)
-		{
-			$value = "'{$value}'";
-		}
+     * @param      $key
+     * @param      $value
+     * @param bool $isString
+     */
+    public function addField($key, $value, $isString = false)
+    {
+        if($isString)
+        {
+            $value = "'{$value}'";
+        }
 
-		$field = $key . ':' . $value;
+        $field = $key . ':' . $value;
 
-		$this->concatField($field);
-	}
+        $this->concatField($field);
+    }
 
-	/**
+    /**
      * Implementation of the range field. $isString for string ranges.
      *
-	 * @param      $key
-	 * @param null $from
-	 * @param null $to
-	 * @param bool $isString
-	 */
-	public function addRangeField($key, $from = null, $to = null, $isString = false)
-	{
-		$field = $key . ':';
+     * @param      $key
+     * @param null $from
+     * @param null $to
+     * @param bool $isString
+     */
+    public function addRangeField($key, $from = null, $to = null, $isString = false)
+    {
+        $field = $key . ':';
 
-		if(is_null($from))
-		{
-			$field .= '{';
-		}
-		else
-		{
-			if($isString)
-			{
-				$from = "'{$from}'";
-			}
+        if(is_null($from))
+        {
+            $field .= '{';
+        }
+        else
+        {
+            if($isString)
+            {
+                $from = "'{$from}'";
+            }
 
-			$field .= '[' . $from;
-		}
+            $field .= '[' . $from;
+        }
 
-		$field .= ',';
+        $field .= ',';
 
-		if(is_null($to))
-		{
-			$field .= '}';
-		}
-		else
-		{
-			if($isString)
-			{
-				$to = "'{$to}'";
-			}
-			$field .= $to . ']';
-		}
+        if(is_null($to))
+        {
+            $field .= '}';
+        }
+        else
+        {
+            if($isString)
+            {
+                $to = "'{$to}'";
+            }
+            $field .= $to . ']';
+        }
 
-		$this->concatField($field);
-	}
+        $this->concatField($field);
+    }
 
-	/**
+    /**
      * Concat the query together in a safe way.
      *
-	 * @param $field
-	 */
-	private function concatField($field)
-	{
-		$lastChar = mb_substr($this->query, -1);
+     * @param $field
+     */
+    private function concatField($field)
+    {
+        $lastChar = mb_substr($this->query, -1);
 
-		if($lastChar != '(' && $lastChar != ' ')
-		{
-			$field = ' ' . $field;
-		}
+        if($lastChar != '(' && $lastChar != ' ')
+        {
+            $field = ' ' . $field;
+        }
 
-		$this->query .= $field;
-	}
+        $this->query .= $field;
+    }
 
-	/**
+    /**
      * Add an OR statement to the query. Pass a closure to set the fields (or other AND/OR statements) in it.
      *
-	 * @param callable $function
-	 * @return $this
-	 */
-	public function addOr(\Closure $function)
-	{
-		$this->query .= '(or ';
+     * @param callable $function
+     * @return $this
+     */
+    public function addOr(\Closure $function)
+    {
+        $this->query .= '(or ';
 
-		$function($this);
+        $function($this);
 
-		$this->query .= ')';
+        $this->query .= ')';
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
+    /**
      * Add an AND statement to the query. Pass a closure to set the fields (or other AND/OR statements) in it.
      *
-	 * @param callable $function
-	 * @return $this
-	 */
-	public function addAnd(\Closure $function)
-	{
-		$this->query .= '(and ';
+     * @param callable $function
+     * @return $this
+     */
+    public function addAnd(\Closure $function)
+    {
+        $this->query .= '(and ';
 
-		$function($this);
+        $function($this);
 
-		$this->query .= ')';
+        $this->query .= ')';
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Get the concatenated query. Used by CloudSearchClient::search().
      *
      * @return string
      */
-	public function getQuery()
-	{
-		return $this->query;
-	}
+    public function getQuery()
+    {
+        return $this->query;
+    }
 }

@@ -214,6 +214,11 @@ class CloudSearchStructuredQuery {
      */
     public function getQuery()
     {
+        if(empty($this->query))
+        {
+            $this->query = 'matchall';
+        }
+
         return $this->query;
     }
 }

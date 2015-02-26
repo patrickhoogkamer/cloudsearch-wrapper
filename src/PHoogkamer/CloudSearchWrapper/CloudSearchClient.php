@@ -45,7 +45,7 @@ class CloudSearchClient {
 
         $facet = $query->getFacet();
 
-        if( ! empty($facet))
+        if( ! $query->facetIsEmpty())
         {
             $args['facet'] = $facet;
         }

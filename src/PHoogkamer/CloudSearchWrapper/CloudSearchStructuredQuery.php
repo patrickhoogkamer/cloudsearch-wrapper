@@ -67,6 +67,19 @@ class CloudSearchStructuredQuery {
     }
 
     /**
+     * @return bool
+     */
+    public function facetIsEmpty()
+    {
+        if(is_null($this->facet))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Used by CloudSearchClient::search() to set the facet parameter.
      *
      * @return string

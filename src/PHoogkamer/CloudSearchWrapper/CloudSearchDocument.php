@@ -26,17 +26,105 @@ class CloudSearchDocument {
      */
 	private $type;
 
-	//TODO magic getter and setter for individual fields
-
 	/**
      * Document always needs an $id.
      *
 	 * @param $id
 	 */
-	public function __construct($id)
+	public function __construct($id = null)
 	{
 		$this->id = $id;
 	}
+
+    /**
+     * @param $name
+     * @param $value
+     */
+    public function __set($name, $value)
+    {
+        $this->setField($name, $value);
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        return $this->fields[$name];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode($this->fields);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->fields;
+    }
+
+    /**
+     * Set an individual field. There is an option to $filterNullFields (means it won't get added if null).
+     *
+     * @param $key
+     * @param $value
+     * @param bool $filterNullFields
+     * @return bool
+     */
+    public function setField($key, $value, $filterNullFields = true)
+    {
+        if($filterNullFields && is_null($value))
+        {
+            return false;
+        }
+
+        $this->fields[$key] = $value;
+
+        return true;
+    }
+
+    /**
+     * @param $key
+     * @param array $array
+     * @return mixed
+     */
+    private function getValueFromArray($key, array $array)
+    {
+        if(isset($array[$key]))
+        {
+            return $array[$key];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $path
+     * @return mixed|null
+     */
+    public function getField($path)
+    {
+        $currentField = null;
+
+        foreach(explode('.', $path) as $key)
+        {
+            $currentField = $this->getValueFromArray($key, $currentField);
+
+            if(is_null($currentField))
+            {
+                return null;
+            }
+        }
+
+        return $currentField;
+    }
 
 	/**
      * Set the document fields by associative array.

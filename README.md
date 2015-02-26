@@ -5,7 +5,7 @@ CloudSearch.
 ## Installation
 
 ```
-composer require phoogkamer/cloudsearch-wrapper:0.1.*
+composer require phoogkamer/cloudsearch-wrapper:0.2.*
 ```
 
 ## Example usage

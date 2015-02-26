@@ -3,42 +3,48 @@
 use Aws\CloudSearchDomain\CloudSearchDomainClient;
 
 /**
- * Class CloudSearchWrapper
+ * Class CloudSearchClient
  */
 class CloudSearchClient {
 
+    /**
+     * @var CloudSearchDomainClient
+     */
 	private $client;
 
 	/**
+     * Instantiate the private CloudSearchDomainClient.
+     *
 	 * @param $endpoint
 	 * @param $key
 	 * @param $secret
 	 */
 	public function __construct($endpoint, $key, $secret)
 	{
-		$this->client = CloudSearchDomainClient::factory(array(
+		$this->client = CloudSearchDomainClient::factory([
 			'base_url'	=> $endpoint,
 			'key'		=> $key,
 			'secret'	=> $secret
-		));
+		]);
 	}
 
-	/**
-	 * @param CloudSearchStructuredQuery $query
-	 * @param CloudSearchStructuredQuery $filterQuery
-	 * @return \Guzzle\Service\Resource\Model
-	 */
-	public function search(CloudSearchStructuredQuery $query, CloudSearchStructuredQuery $filterQuery = null)
+    /**
+     * @param CloudSearchStructuredQuery $query
+     * @param CloudSearchStructuredQuery $filterQuery
+     * @param string $resultDocument
+     * @return CloudSearchResult
+     */
+	public function search(CloudSearchStructuredQuery $query, CloudSearchStructuredQuery $filterQuery = null, $resultDocument = '\PHoogkamer\CloudSearchWrapper\CloudSearchDocument')
 	{
-		$args = array(
+		$args = [
 			'queryParser' 	=> 'structured',
 			'query' 		=> $query->getQuery(),
 			'size'			=> $query->getSize()
-		);
+		];
 
         $facet = $query->getFacet();
 
-        if( ! empty($facet))
+        if( ! $query->facetIsEmpty())
         {
             $args['facet'] = $facet;
         }
@@ -50,11 +56,33 @@ class CloudSearchClient {
 
 		$args = array_filter($args);
 
-		//TODO CloudSearchResult class
-		return $this->client->search($args);
+        $result = $this->convertResult($this->client->search($args), $resultDocument);
+
+		return $result;
 	}
 
+    /**
+     * @param \Guzzle\Service\Resource\Model $awsResult
+     * @param $resultDocument
+     * @return CloudSearchResult
+     * @throws \Exception
+     */
+    private function convertResult(\Guzzle\Service\Resource\Model $awsResult, $resultDocument)
+    {
+        $time = $awsResult->getPath('status/timems');
+        $size = $awsResult->getPath('hits/found');
+        $start = $awsResult->getPath('hits/start');
+
+        $result = new CloudSearchResult($size, $start, $time);
+
+        $result->fillWithHits($awsResult->getPath('hits/hit'), $resultDocument);
+
+        return $result;
+    }
+
 	/**
+     * Push a CloudSearchDocument to CloudSearch.
+     *
 	 * @param CloudSearchDocument $document
 	 */
 	public function pushDocument(CloudSearchDocument $document)
@@ -63,6 +91,8 @@ class CloudSearchClient {
 	}
 
 	/**
+     * Push an array of CloudSearchDocuments to CloudSearch.
+     *
 	 * @param array $documents
 	 * @throws \Exception
 	 */
@@ -85,14 +115,16 @@ class CloudSearchClient {
 	}
 
 	/**
+     * Upload the documents.
+     *
 	 * @param $documents
 	 */
 	private function uploadDocuments($documents)
 	{
-		$args = array(
+		$args = [
 			'contentType'	=> 'application/json',
 			'documents' 	=> json_encode($documents)
-		);
+		];
 
 		$this->client->uploadDocuments($args);
 	}

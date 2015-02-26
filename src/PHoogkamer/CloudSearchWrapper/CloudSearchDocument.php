@@ -3,7 +3,7 @@
 /**
  * Class CloudSearchDocument
  */
-class CloudSearchDocument {
+class CloudSearchDocument implements CloudSearchDocumentInterface {
 
     /**
      * The document id overwrites the document already in CloudSearch with the same id.
@@ -141,6 +141,26 @@ class CloudSearchDocument {
 
 		$this->fields = $fields;
 	}
+
+    /**
+     * @param array $hit
+     */
+    public function fillWithHit(array $hit)
+    {
+        $this->id = $hit['id'];
+
+        foreach($hit['fields'] as $key => $field)
+        {
+            if(is_array($field) && count($field) === 1)
+            {
+                $this->fields[$key] = $field[0];
+            }
+            else
+            {
+                $this->fields[$key] = $field;
+            }
+        }
+    }
 
     /**
      * Set the document type to 'add'.

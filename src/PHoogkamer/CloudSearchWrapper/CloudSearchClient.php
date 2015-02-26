@@ -28,14 +28,13 @@ class CloudSearchClient {
 		]);
 	}
 
-	/**
-     * Search CloudSearch with a specified query.
-     *
-	 * @param CloudSearchStructuredQuery $query
-	 * @param CloudSearchStructuredQuery $filterQuery
-	 * @return \Guzzle\Service\Resource\Model
-	 */
-	public function search(CloudSearchStructuredQuery $query, CloudSearchStructuredQuery $filterQuery = null)
+    /**
+     * @param CloudSearchStructuredQuery $query
+     * @param CloudSearchStructuredQuery $filterQuery
+     * @param string $resultDocument
+     * @return CloudSearchResult
+     */
+	public function search(CloudSearchStructuredQuery $query, CloudSearchStructuredQuery $filterQuery = null, $resultDocument = '\PHoogkamer\CloudSearchWrapper\CloudSearchDocument')
 	{
 		$args = [
 			'queryParser' 	=> 'structured',
@@ -57,9 +56,29 @@ class CloudSearchClient {
 
 		$args = array_filter($args);
 
-		//TODO CloudSearchResult class
-		return $this->client->search($args);
+        $result = $this->convertResult($this->client->search($args), $resultDocument);
+
+		return $result;
 	}
+
+    /**
+     * @param \Guzzle\Service\Resource\Model $awsResult
+     * @param $resultDocument
+     * @return CloudSearchResult
+     * @throws \Exception
+     */
+    private function convertResult(\Guzzle\Service\Resource\Model $awsResult, $resultDocument)
+    {
+        $time = $awsResult->getPath('status/timems');
+        $size = $awsResult->getPath('hits/found');
+        $start = $awsResult->getPath('hits/start');
+
+        $result = new CloudSearchResult($size, $start, $time);
+
+        $result->fillWithHits($awsResult->getPath('hits/hit'), $resultDocument);
+
+        return $result;
+    }
 
 	/**
      * Push a CloudSearchDocument to CloudSearch.

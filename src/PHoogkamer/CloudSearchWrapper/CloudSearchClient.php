@@ -69,11 +69,11 @@ class CloudSearchClient {
      */
     private function convertResult(\Guzzle\Service\Resource\Model $awsResult, $resultDocument)
     {
-        $time = $awsResult->getPath('status/timems');
-        $size = $awsResult->getPath('hits/found');
-        $start = $awsResult->getPath('hits/start');
+        $time         = $awsResult->getPath('status/timems');
+        $amountOfHits = $awsResult->getPath('hits/found');
+        $start        = $awsResult->getPath('hits/start');
 
-        $result = new CloudSearchResult($size, $start, $time);
+        $result = new CloudSearchResult($amountOfHits, $start, $time);
 
         $result->fillWithHits($awsResult->getPath('hits/hit'), $resultDocument);
 

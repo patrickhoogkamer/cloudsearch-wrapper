@@ -10,7 +10,7 @@ class CloudSearchResult {
     /**
      * @var int
      */
-    private $size;
+    private $amountOfHits;
 
     /**
      * @var int
@@ -28,13 +28,13 @@ class CloudSearchResult {
     private $hits;
 
     /**
-     * @param $size
+     * @param $amountOfHits
      * @param $start
      * @param $time
      */
-    public function __construct($size, $start, $time)
+    public function __construct($amountOfHits, $start, $time)
     {
-        $this->size = $size;
+        $this->amountOfHits = $amountOfHits;
         $this->start = $start;
         $this->time = $time;
     }
@@ -42,9 +42,9 @@ class CloudSearchResult {
     /**
      * @return int
      */
-    public function getSize()
+    public function getAmountOfHits()
     {
-        return $this->size;
+        return $this->amountOfHits;
     }
 
     /**

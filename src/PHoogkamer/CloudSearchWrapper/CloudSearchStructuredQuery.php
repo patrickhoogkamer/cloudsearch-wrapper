@@ -183,6 +183,8 @@ class CloudSearchStructuredQuery {
 
         $this->query .= ')';
 
+        $this->query = str_replace('(or )', '', $this->query);
+
         return $this;
     }
 
@@ -199,6 +201,8 @@ class CloudSearchStructuredQuery {
         $function($this);
 
         $this->query .= ')';
+
+        $this->query = str_replace('(and )', '', $this->query);
 
         return $this;
     }

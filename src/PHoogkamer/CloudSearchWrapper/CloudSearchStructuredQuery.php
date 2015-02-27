@@ -19,7 +19,14 @@ class CloudSearchStructuredQuery {
      *
      * @var int
      */
-    private $size;
+    private $size = 10;
+
+    /**
+     * The query offset
+     *
+     * @var int
+     */
+    private $start = 0;
 
     /**
      * The facet fields used for the query.
@@ -54,6 +61,26 @@ class CloudSearchStructuredQuery {
     public function getSize()
     {
         return $this->size;
+    }
+
+    /**
+     * The query offset (search returns items starting at $start)
+     *
+     * @param int $start
+     */
+    public function setStart($start)
+    {
+        $this->start = (int)$start;
+    }
+
+    /**
+     * Mainly used by the CloudSearchClient::search() method, gets the start.
+     *
+     * @return int
+     */
+    public function getStart()
+    {
+        return $this->start;
     }
 
     /**

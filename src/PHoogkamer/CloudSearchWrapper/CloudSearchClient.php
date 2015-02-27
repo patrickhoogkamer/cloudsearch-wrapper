@@ -39,6 +39,7 @@ class CloudSearchClient {
         $args = [
             'queryParser' => 'structured',
             'query'       => $query->getQuery(),
+            'start'       => $query->getStart(),
             'size'        => $query->getSize()
         ];
 

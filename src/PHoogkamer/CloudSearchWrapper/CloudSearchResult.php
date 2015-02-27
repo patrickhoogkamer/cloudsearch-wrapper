@@ -28,15 +28,22 @@ class CloudSearchResult {
     private $hits;
 
     /**
+     * @var array
+     */
+    private $facets;
+
+    /**
      * @param $amountOfHits
      * @param $start
      * @param $time
+     * @param $facets
      */
-    public function __construct($amountOfHits, $start, $time)
+    public function __construct($amountOfHits, $start, $time, $facets)
     {
         $this->amountOfHits = $amountOfHits;
         $this->start = $start;
         $this->time = $time;
+        $this->facets = $facets;
     }
 
     /**
@@ -45,6 +52,14 @@ class CloudSearchResult {
     public function getAmountOfHits()
     {
         return $this->amountOfHits;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFacets()
+    {
+        return $this->facets;
     }
 
     /**

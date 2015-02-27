@@ -73,8 +73,9 @@ class CloudSearchClient {
         $time         = $awsResult->getPath('status/timems');
         $amountOfHits = $awsResult->getPath('hits/found');
         $start        = $awsResult->getPath('hits/start');
+        $facets       = $awsResult->getPath('facets');
 
-        $result = new CloudSearchResult($amountOfHits, $start, $time);
+        $result = new CloudSearchResult($amountOfHits, $start, $time, $facets);
 
         $result->fillWithHits($awsResult->getPath('hits/hit'), $resultDocument);
 

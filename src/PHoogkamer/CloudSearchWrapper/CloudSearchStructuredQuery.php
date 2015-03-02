@@ -86,9 +86,9 @@ class CloudSearchStructuredQuery {
     /**
      * Set facet array in the same way as the AWS SDK.
      *
-     * @param array $facet
+     * @param array|object $facet
      */
-    public function setFacet(array $facet)
+    public function setFacet($facet)
     {
         $this->facet = $facet;
     }

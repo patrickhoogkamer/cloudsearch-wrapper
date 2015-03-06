@@ -29,15 +29,15 @@ class CloudSearchClient {
     }
 
     /**
-     * @param CloudSearchStructuredQuery $query
+     * @param CloudSearchQueryInterface $query
      * @param CloudSearchStructuredQuery $filterQuery
      * @param string $resultDocument
      * @return CloudSearchResult
      */
-    public function search(CloudSearchStructuredQuery $query, CloudSearchStructuredQuery $filterQuery = null, $resultDocument = '\PHoogkamer\CloudSearchWrapper\CloudSearchDocument')
+    public function search(CloudSearchQueryInterface $query, CloudSearchStructuredQuery $filterQuery = null, $resultDocument = '\PHoogkamer\CloudSearchWrapper\CloudSearchDocument')
     {
         $args = [
-            'queryParser' => 'structured',
+            'queryParser' => $query->getQueryParserType(),
             'query'       => $query->getQuery(),
             'start'       => $query->getStart(),
             'size'        => $query->getSize()

@@ -4,36 +4,19 @@
  * Used to construct a structured query used by CloudSearchClient.
  *
  * Class CloudSearchStructuredQuery
+ *
+ * @package PHoogkamer\CloudSearchWrapper
  */
-class CloudSearchStructuredQuery {
+class CloudSearchStructuredQuery extends CloudSearchQuery implements CloudSearchQueryInterface{
+
 
     /**
-     * Concatenated structured query.
-     *
-     * @var string
+     * @return string
      */
-    private $query;
-
-    /**
-     * The query size.
-     *
-     * @var int
-     */
-    private $size = 10;
-
-    /**
-     * The query offset
-     *
-     * @var int
-     */
-    private $start = 0;
-
-    /**
-     * The facet fields used for the query.
-     *
-     * @var array
-     */
-    private $facet;
+    public function getQueryParserType()
+    {
+        return 'structured';
+    }
 
     /**
      * Set query to match all documents, this erases the previous query entries.
@@ -43,78 +26,6 @@ class CloudSearchStructuredQuery {
         $this->query = 'matchall';
     }
 
-    /**
-     * The max result size (search returns $size items)
-     *
-     * @param int $size
-     */
-    public function setSize($size)
-    {
-        $this->size = (int)$size;
-    }
-
-    /**
-     * Mainly used by the CloudSearchClient::search() method, gets the size.
-     *
-     * @return int
-     */
-    public function getSize()
-    {
-        return $this->size;
-    }
-
-    /**
-     * The query offset (search returns items starting at $start)
-     *
-     * @param int $start
-     */
-    public function setStart($start)
-    {
-        $this->start = (int)$start;
-    }
-
-    /**
-     * Mainly used by the CloudSearchClient::search() method, gets the start.
-     *
-     * @return int
-     */
-    public function getStart()
-    {
-        return $this->start;
-    }
-
-    /**
-     * Set facet array in the same way as the AWS SDK.
-     *
-     * @param array|object $facet
-     */
-    public function setFacet($facet)
-    {
-        $this->facet = $facet;
-    }
-
-    /**
-     * @return bool
-     */
-    public function facetIsEmpty()
-    {
-        if(is_null($this->facet))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Used by CloudSearchClient::search() to set the facet parameter.
-     *
-     * @return string
-     */
-    public function getFacet()
-    {
-        return json_encode($this->facet);
-    }
 
     /**
      * Add a field to query, add string value by setting $isString as true.

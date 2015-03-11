@@ -136,10 +136,19 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
     {
         if($filterNullFields)
         {
-            $fields = array_filter($fields);
+            $fields = array_filter($fields, [$this, 'filterNullField']);
         }
 
         $this->fields = $fields;
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    private function filterNullField($value)
+    {
+        return ! is_null($value);
     }
 
     /**

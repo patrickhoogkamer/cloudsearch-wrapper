@@ -197,9 +197,20 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
         $document = [
             'type'   => $this->type,
             'id'     => $this->id,
-            'fields' => $this->fields
+            'fields' => $this->filterBadCharacters($this->fields)
         ];
 
         return array_filter($document);
+    }
+
+    /**
+     * @param array $fields
+     * @return mixed
+     */
+    private function filterBadCharacters(array $fields)
+    {
+        $badCharacters = ['\u0015'];
+
+        return json_decode(str_replace($badCharacters, '', json_encode($fields)), true);
     }
 }

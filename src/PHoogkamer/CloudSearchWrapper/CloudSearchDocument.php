@@ -207,8 +207,13 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
      * @param array $fields
      * @return mixed
      */
-    private function filterBadCharacters(array $fields)
+    private function filterBadCharacters($fields)
     {
+        if(is_null($fields))
+        {
+            return null;
+        }
+
         $badCharacters = ['\u0015'];
 
         return json_decode(str_replace($badCharacters, '', json_encode($fields)), true);

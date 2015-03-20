@@ -148,8 +148,8 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
      */
     private function filterNullField($value)
     {
-        //No null, no array, no digit, is_string so must be string
-        if( ! is_null($value) && ! is_array($value) && ! ctype_digit((string) $value) && is_string($value))
+        //No null, no array, so needs trim
+        if( ! is_null($value) && ! is_array($value))
         {
             $value = trim($value);
         }

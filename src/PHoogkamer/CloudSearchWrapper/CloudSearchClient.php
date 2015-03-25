@@ -40,7 +40,8 @@ class CloudSearchClient {
             'queryParser' => $query->getQueryParserType(),
             'query'       => $query->getQuery(),
             'start'       => $query->getStart(),
-            'size'        => $query->getSize()
+            'size'        => $query->getSize(),
+            'sort'        => $query->getSort()
         ];
 
         $facet = $query->getFacet();

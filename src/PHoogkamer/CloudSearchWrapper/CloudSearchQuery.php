@@ -32,6 +32,11 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface{
      */
     private $facet;
 
+    /**
+     * @var string
+     */
+    private $sort = '_score desc';
+
     public abstract function getQueryParserType();
 
     /**
@@ -105,6 +110,22 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface{
     public function getFacet()
     {
         return json_encode($this->facet);
+    }
+
+    /**
+     * @param string $sort
+     */
+    public function setSort($sort)
+    {
+        $this->sort = $sort;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSort()
+    {
+        return $this->sort;
     }
 
     /**

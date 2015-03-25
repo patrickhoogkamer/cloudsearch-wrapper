@@ -51,6 +51,17 @@ interface CloudSearchQueryInterface {
     public function getFacet();
 
     /**
+     * @param string $sort
+     * @return void
+     */
+    public function setSort($sort);
+
+    /**
+     * @return string
+     */
+    public function getSort();
+
+    /**
      * @return bool
      */
     public function facetIsEmpty();

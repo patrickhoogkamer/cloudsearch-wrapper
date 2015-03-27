@@ -51,6 +51,11 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
      */
     public function __get($name)
     {
+        if( ! isset($this->fields[$name]))
+        {
+            return null;
+        }
+
         return $this->fields[$name];
     }
 

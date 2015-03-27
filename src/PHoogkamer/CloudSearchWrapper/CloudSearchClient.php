@@ -10,10 +10,18 @@ class CloudSearchClient {
     /**
      * @var CloudSearchDomainClient
      */
-    private $client;
+    private $pushClient;
 
     /**
-     * Instantiate the private CloudSearchDomainClient.
+     * @var CloudSearchDomainClient
+     */
+    private $searchClient;
+
+    /**
+     * Instantiate the private default CloudSearchDomainClient. You might need to have both a search and push client
+     * because they use different endpoints. The one you instantiate through the constructor will be set as both. If you
+     * do need two different clients you can set either the pushClient or searchClient afterwards with the getters and
+     * setters.
      *
      * @param $endpoint
      * @param $key
@@ -21,7 +29,41 @@ class CloudSearchClient {
      */
     public function __construct($endpoint, $key, $secret)
     {
-        $this->client = CloudSearchDomainClient::factory([
+        $this->pushClient = CloudSearchDomainClient::factory([
+            'base_url' => $endpoint,
+            'key'      => $key,
+            'secret'   => $secret
+        ]);
+
+        $this->searchClient = $this->pushClient;
+    }
+
+    /**
+     * Set if you want to use a different client/endpoint for pushing than the one inserted in the constructor.
+     *
+     * @param $endpoint
+     * @param $key
+     * @param $secret
+     */
+    public function setPushClient($endpoint, $key, $secret)
+    {
+        $this->pushClient = CloudSearchDomainClient::factory([
+            'base_url' => $endpoint,
+            'key'      => $key,
+            'secret'   => $secret
+        ]);
+    }
+
+    /**
+     * Set if you want to use a different client/endpoint for pushing than the one inserted in the constructor.
+     *
+     * @param $endpoint
+     * @param $key
+     * @param $secret
+     */
+    public function setSearchClient($endpoint, $key, $secret)
+    {
+        $this->searchClient = CloudSearchDomainClient::factory([
             'base_url' => $endpoint,
             'key'      => $key,
             'secret'   => $secret
@@ -58,7 +100,7 @@ class CloudSearchClient {
 
         $args = array_filter($args);
 
-        $result = $this->convertResult($this->client->search($args), $resultDocument);
+        $result = $this->convertResult($this->searchClient->search($args), $resultDocument);
 
         return $result;
     }
@@ -129,6 +171,6 @@ class CloudSearchClient {
             'documents'   => json_encode($documents)
         ];
 
-        $this->client->uploadDocuments($args);
+        $this->pushClient->uploadDocuments($args);
     }
 }

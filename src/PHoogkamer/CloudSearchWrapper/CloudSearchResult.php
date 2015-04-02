@@ -10,7 +10,7 @@ class CloudSearchResult {
     /**
      * @var int
      */
-    private $size;
+    private $amountOfHits;
 
     /**
      * @var int
@@ -28,23 +28,38 @@ class CloudSearchResult {
     private $hits;
 
     /**
-     * @param $size
+     * @var array
+     */
+    private $facets;
+
+    /**
+     * @param $amountOfHits
      * @param $start
      * @param $time
+     * @param $facets
      */
-    public function __construct($size, $start, $time)
+    public function __construct($amountOfHits, $start, $time, $facets)
     {
-        $this->size = $size;
+        $this->amountOfHits = $amountOfHits;
         $this->start = $start;
         $this->time = $time;
+        $this->facets = $facets;
     }
 
     /**
      * @return int
      */
-    public function getSize()
+    public function getAmountOfHits()
     {
-        return $this->size;
+        return $this->amountOfHits;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFacets()
+    {
+        return $this->facets;
     }
 
     /**
@@ -80,12 +95,12 @@ class CloudSearchResult {
     {
         $this->hits = [];
 
-        foreach($hits as $hit)
+        foreach ($hits as $hit)
         {
             /* @var $document CloudSearchDocumentInterface */
             $document = new $resultDocumentClass();
 
-            if( ! ($document instanceof CloudSearchDocumentInterface))
+            if(!($document instanceof CloudSearchDocumentInterface))
             {
                 throw new \Exception($resultDocumentClass . ' must implement CloudSearchDocumentInterface');
             }

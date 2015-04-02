@@ -10,31 +10,31 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
      *
      * @var string
      */
-	private $id;
+    private $id;
 
     /**
      * Associative array with fields.
      *
      * @var array
      */
-	private $fields;
+    private $fields;
 
     /**
      * Document type, currently either 'add' or 'delete'.
      *
      * @var string
      */
-	private $type;
+    private $type;
 
-	/**
+    /**
      * Document always needs an $id.
      *
-	 * @param $id
-	 */
-	public function __construct($id = null)
-	{
-		$this->id = $id;
-	}
+     * @param $id
+     */
+    public function __construct($id = null)
+    {
+        $this->id = $id;
+    }
 
     /**
      * @param $name
@@ -51,6 +51,11 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
      */
     public function __get($name)
     {
+        if( ! isset($this->fields[$name]))
+        {
+            return null;
+        }
+
         return $this->fields[$name];
     }
 
@@ -113,7 +118,7 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
     {
         $currentField = null;
 
-        foreach(explode('.', $path) as $key)
+        foreach (explode('.', $path) as $key)
         {
             $currentField = $this->getValueFromArray($key, $currentField);
 
@@ -126,21 +131,36 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
         return $currentField;
     }
 
-	/**
+    /**
      * Set the document fields by associative array.
      *
-	 * @param array $fields
-	 * @param bool  $filterNullFields
-	 */
-	public function setFields(array $fields, $filterNullFields = true)
-	{
-		if($filterNullFields)
-		{
-			$fields = array_filter($fields);
-		}
+     * @param array $fields
+     * @param bool $filterNullFields
+     */
+    public function setFields(array $fields, $filterNullFields = true)
+    {
+        if($filterNullFields)
+        {
+            $fields = array_filter($fields, [$this, 'filterNullField']);
+        }
 
-		$this->fields = $fields;
-	}
+        $this->fields = $fields;
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    private function filterNullField($value)
+    {
+        //No null, no array, so needs trim
+        if( ! is_null($value) && ! is_array($value))
+        {
+            $value = trim($value);
+        }
+
+        return ! is_null($value) && $value !== '';
+    }
 
     /**
      * @param array $hit
@@ -149,7 +169,7 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
     {
         $this->id = $hit['id'];
 
-        foreach($hit['fields'] as $key => $field)
+        foreach ($hit['fields'] as $key => $field)
         {
             if(is_array($field) && count($field) === 1)
             {
@@ -165,32 +185,48 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
     /**
      * Set the document type to 'add'.
      */
-	public function setTypeAdd()
-	{
-		$this->type = 'add';
-	}
+    public function setTypeAdd()
+    {
+        $this->type = 'add';
+    }
 
     /**
      * Set the document type to 'delete'.
      */
-	public function setTypeDelete()
-	{
-		$this->type = 'delete';
-	}
+    public function setTypeDelete()
+    {
+        $this->type = 'delete';
+    }
 
-	/**
+    /**
      * Get the actual document to be pushed.
      *
-	 * @return array
-	 */
-	public function getDocument()
-	{
-		$document = [
-			'type'		=> $this->type,
-			'id'		=> $this->id,
-			'fields'	=> $this->fields
-		];
+     * @return array
+     */
+    public function getDocument()
+    {
+        $document = [
+            'type'   => $this->type,
+            'id'     => $this->id,
+            'fields' => $this->filterBadCharacters($this->fields)
+        ];
 
-		return array_filter($document);
-	}
+        return array_filter($document);
+    }
+
+    /**
+     * @param array $fields
+     * @return mixed
+     */
+    private function filterBadCharacters($fields)
+    {
+        if(is_null($fields))
+        {
+            return null;
+        }
+
+        $badCharacters = ['\u0015'];
+
+        return json_decode(str_replace($badCharacters, '', json_encode($fields)), true);
+    }
 }

@@ -1,11 +1,14 @@
-<?php namespace PHoogkamer\CloudSearchWrapper;
+<?php
+
+namespace PHoogkamer\CloudSearchWrapper;
 
 /**
  * Interface CloudSearchQueryInterface
  *
  * @package PHoogkamer\CloudSearchWrapper
  */
-interface CloudSearchQueryInterface {
+interface CloudSearchQueryInterface
+{
 
     /**
      * @return string

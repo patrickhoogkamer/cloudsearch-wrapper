@@ -1,11 +1,14 @@
-<?php namespace PHoogkamer\CloudSearchWrapper;
+<?php
+
+namespace PHoogkamer\CloudSearchWrapper;
 
 use Aws\CloudSearchDomain\CloudSearchDomainClient;
 
 /**
  * Class CloudSearchClient
  */
-class CloudSearchClient {
+class CloudSearchClient
+{
 
     /**
      * @var CloudSearchDomainClient
@@ -71,13 +74,16 @@ class CloudSearchClient {
     }
 
     /**
-     * @param CloudSearchQueryInterface $query
+     * @param CloudSearchQueryInterface  $query
      * @param CloudSearchStructuredQuery $filterQuery
-     * @param string $resultDocument
+     * @param string                     $resultDocument
      * @return CloudSearchResult
      */
-    public function search(CloudSearchQueryInterface $query, CloudSearchStructuredQuery $filterQuery = null, $resultDocument = '\PHoogkamer\CloudSearchWrapper\CloudSearchDocument')
-    {
+    public function search(
+        CloudSearchQueryInterface $query,
+        CloudSearchStructuredQuery $filterQuery = null,
+        $resultDocument = '\PHoogkamer\CloudSearchWrapper\CloudSearchDocument'
+    ) {
         $args = [
             'queryParser' => $query->getQueryParserType(),
             'query'       => $query->getQuery(),
@@ -88,13 +94,11 @@ class CloudSearchClient {
 
         $facet = $query->getFacet();
 
-        if(!$query->facetIsEmpty())
-        {
+        if ( ! $query->facetIsEmpty()) {
             $args['facet'] = $facet;
         }
 
-        if(!is_null($filterQuery))
-        {
+        if ( ! is_null($filterQuery)) {
             $args['filterQuery'] = $filterQuery->getQuery();
         }
 
@@ -107,7 +111,7 @@ class CloudSearchClient {
 
     /**
      * @param \Guzzle\Service\Resource\Model $awsResult
-     * @param $resultDocument
+     * @param                                $resultDocument
      * @return CloudSearchResult
      * @throws \Exception
      */
@@ -146,10 +150,8 @@ class CloudSearchClient {
         $arrayDocuments = [];
 
         /* @var $document CloudSearchDocument */
-        foreach ($documents as $document)
-        {
-            if(!($document instanceof CloudSearchDocument))
-            {
+        foreach ($documents as $document) {
+            if ( ! ($document instanceof CloudSearchDocument)) {
                 throw new \Exception('$documents must be an array of CloudSearchDocuments');
             }
 

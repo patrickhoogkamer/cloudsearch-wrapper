@@ -1,11 +1,14 @@
-<?php namespace PHoogkamer\CloudSearchWrapper;
+<?php
+
+namespace PHoogkamer\CloudSearchWrapper;
 
 /**
  * Class CloudSearchQuery
  *
  * @package PHoogkamer\CloudSearchWrapper
  */
-abstract class CloudSearchQuery implements CloudSearchQueryInterface{
+abstract class CloudSearchQuery implements CloudSearchQueryInterface
+{
 
     /**
      * Concatenated structured query.
@@ -13,18 +16,21 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface{
      * @var string
      */
     protected $query;
+
     /**
      * The query size.
      *
      * @var int
      */
     private $size = 10;
+
     /**
      * The query offset
      *
      * @var int
      */
     private $start = 0;
+
     /**
      * The facet fields used for the query.
      *
@@ -46,7 +52,7 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface{
      */
     public function setSize($size)
     {
-        $this->size = (int)$size;
+        $this->size = (int) $size;
     }
 
     /**
@@ -66,7 +72,7 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface{
      */
     public function setStart($start)
     {
-        $this->start = (int)$start;
+        $this->start = (int) $start;
     }
 
     /**
@@ -94,8 +100,7 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface{
      */
     public function facetIsEmpty()
     {
-        if(is_null($this->facet))
-        {
+        if (is_null($this->facet)) {
             return true;
         }
 

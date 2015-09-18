@@ -1,11 +1,14 @@
-<?php namespace PHoogkamer\CloudSearchWrapper;
+<?php
+
+namespace PHoogkamer\CloudSearchWrapper;
 
 /**
  * Class CloudSearchResult
  *
  * @package PHoogkamer\CloudSearchWrapper
  */
-class CloudSearchResult {
+class CloudSearchResult
+{
 
     /**
      * @var int
@@ -41,9 +44,9 @@ class CloudSearchResult {
     public function __construct($amountOfHits, $start, $time, $facets)
     {
         $this->amountOfHits = $amountOfHits;
-        $this->start = $start;
-        $this->time = $time;
-        $this->facets = $facets;
+        $this->start        = $start;
+        $this->time         = $time;
+        $this->facets       = $facets;
     }
 
     /**
@@ -88,20 +91,18 @@ class CloudSearchResult {
 
     /**
      * @param array $hits
-     * @param $resultDocumentClass
+     * @param       $resultDocumentClass
      * @throws \Exception
      */
     public function fillWithHits(array $hits, $resultDocumentClass)
     {
         $this->hits = [];
 
-        foreach ($hits as $hit)
-        {
+        foreach ($hits as $hit) {
             /* @var $document CloudSearchDocumentInterface */
             $document = new $resultDocumentClass();
 
-            if(!($document instanceof CloudSearchDocumentInterface))
-            {
+            if ( ! ($document instanceof CloudSearchDocumentInterface)) {
                 throw new \Exception($resultDocumentClass . ' must implement CloudSearchDocumentInterface');
             }
 

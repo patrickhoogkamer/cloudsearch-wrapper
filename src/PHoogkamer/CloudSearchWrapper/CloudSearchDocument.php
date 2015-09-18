@@ -1,9 +1,12 @@
-<?php namespace PHoogkamer\CloudSearchWrapper;
+<?php
+
+namespace PHoogkamer\CloudSearchWrapper;
 
 /**
  * Class CloudSearchDocument
  */
-class CloudSearchDocument implements CloudSearchDocumentInterface {
+class CloudSearchDocument implements CloudSearchDocumentInterface
+{
 
     /**
      * The document id overwrites the document already in CloudSearch with the same id.
@@ -51,8 +54,7 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
      */
     public function __get($name)
     {
-        if( ! isset($this->fields[$name]))
-        {
+        if ( ! isset($this->fields[$name])) {
             return null;
         }
 
@@ -78,15 +80,14 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
     /**
      * Set an individual field. There is an option to $filterNullFields (means it won't get added if null).
      *
-     * @param $key
-     * @param $value
+     * @param      $key
+     * @param      $value
      * @param bool $filterNullFields
      * @return bool
      */
     public function setField($key, $value, $filterNullFields = true)
     {
-        if($filterNullFields && is_null($value))
-        {
+        if ($filterNullFields && is_null($value)) {
             return false;
         }
 
@@ -96,14 +97,13 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
     }
 
     /**
-     * @param $key
+     * @param       $key
      * @param array $array
      * @return mixed
      */
     private function getValueFromArray($key, array $array)
     {
-        if(isset($array[$key]))
-        {
+        if (isset($array[$key])) {
             return $array[$key];
         }
 
@@ -118,12 +118,10 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
     {
         $currentField = null;
 
-        foreach (explode('.', $path) as $key)
-        {
+        foreach (explode('.', $path) as $key) {
             $currentField = $this->getValueFromArray($key, $currentField);
 
-            if(is_null($currentField))
-            {
+            if (is_null($currentField)) {
                 return null;
             }
         }
@@ -135,12 +133,11 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
      * Set the document fields by associative array.
      *
      * @param array $fields
-     * @param bool $filterNullFields
+     * @param bool  $filterNullFields
      */
     public function setFields(array $fields, $filterNullFields = true)
     {
-        if($filterNullFields)
-        {
+        if ($filterNullFields) {
             $fields = array_filter($fields, [$this, 'filterNullField']);
         }
 
@@ -154,8 +151,7 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
     private function filterNullField($value)
     {
         //No null, no array, so needs trim
-        if( ! is_null($value) && ! is_array($value))
-        {
+        if ( ! is_null($value) && ! is_array($value)) {
             $value = trim($value);
         }
 
@@ -169,14 +165,10 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
     {
         $this->id = $hit['id'];
 
-        foreach ($hit['fields'] as $key => $field)
-        {
-            if(is_array($field) && count($field) === 1)
-            {
+        foreach ($hit['fields'] as $key => $field) {
+            if (is_array($field) && count($field) === 1) {
                 $this->fields[$key] = $field[0];
-            }
-            else
-            {
+            } else {
                 $this->fields[$key] = $field;
             }
         }
@@ -220,8 +212,7 @@ class CloudSearchDocument implements CloudSearchDocumentInterface {
      */
     private function filterBadCharacters($fields)
     {
-        if(is_null($fields))
-        {
+        if (is_null($fields)) {
             return null;
         }
 

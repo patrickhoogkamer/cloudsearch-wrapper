@@ -41,6 +41,11 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface
     /**
      * @var string
      */
+    private $cursor;
+
+    /**
+     * @var string
+     */
     private $sort = '_score desc';
 
     public abstract function getQueryParserType();
@@ -131,6 +136,25 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface
     public function getSort()
     {
         return $this->sort;
+    }
+
+    public function setCursor($cursor)
+    {
+        $this->cursor = $cursor;
+    }
+
+    public function getCursor()
+    {
+        return $this->cursor;
+    }
+
+    public function useCursor($shouldUseCursor = true)
+    {
+        if ($shouldUseCursor && empty($this->cursor)) {
+            $this->cursor = 'initial';
+        } else {
+            $this->cursor = null;
+        }
     }
 
     /**

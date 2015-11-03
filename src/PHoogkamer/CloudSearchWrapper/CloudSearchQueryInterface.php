@@ -65,6 +65,21 @@ interface CloudSearchQueryInterface
     public function getSort();
 
     /**
+     * @param $cursor
+     */
+    public function setCursor($cursor);
+
+    /**
+     * @return string
+     */
+    public function getCursor();
+
+    /**
+     * @param bool|true $shouldUseCursor
+     */
+    public function useCursor($shouldUseCursor = true);
+
+    /**
      * @return bool
      */
     public function facetIsEmpty();

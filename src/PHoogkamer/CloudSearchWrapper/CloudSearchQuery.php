@@ -48,6 +48,11 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface
      */
     private $sort = '_score desc';
 
+    /**
+     * @var array
+     */
+    private $queryOptions;
+
     public abstract function getQueryParserType();
 
     /**
@@ -155,6 +160,16 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface
         } else {
             $this->cursor = null;
         }
+    }
+
+    public function setQueryOption($key,$value)
+    {
+        $this->queryOptions[$key] = $value;
+    }
+
+    public function getQueryOptions()
+    {
+        return json_encode($this->queryOptions);
     }
 
     /**

@@ -83,4 +83,16 @@ interface CloudSearchQueryInterface
      * @return bool
      */
     public function facetIsEmpty();
+
+    /**
+     * @return string
+     */
+    public function getQueryOptions();
+
+    /**
+     * @param string $key
+     * @param string $value
+     * @return void
+     */
+    public function setQueryOption($key, $value);
 }

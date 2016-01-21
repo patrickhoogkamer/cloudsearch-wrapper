@@ -220,7 +220,8 @@ class CloudSearchClient
             'query'       => $query->getQuery(),
             'start'       => $query->getStart(),
             'size'        => $query->getSize(),
-            'sort'        => $query->getSort()
+            'sort'        => $query->getSort(),
+            'queryOptions'=> $query->getQueryOptions()
         ];
 
         $facet = $query->getFacet();

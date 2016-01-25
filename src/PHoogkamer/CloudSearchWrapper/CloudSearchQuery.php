@@ -169,7 +169,12 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface
 
     public function getQueryOptions()
     {
-        return json_encode($this->queryOptions);
+        if(is_array($this->queryOptions) && count($this->queryOptions) > 0)
+        {
+            return json_encode($this->queryOptions);
+        } else {
+            return '';
+        }
     }
 
     /**

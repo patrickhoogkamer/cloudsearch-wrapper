@@ -1,11 +1,11 @@
 # CloudSearch Wrapper
 A wrapper for the AWS SDK regarding CloudSearch. Provides a nicer, less error prone interface than the Amazon SDK for
-CloudSearch.
+CloudSearch. Version 0.3.0 should be considered stable. I'm just not sure if the featureset is complete enough for a major version change.
 
 ## Installation
 
 ```
-composer require phoogkamer/cloudsearch-wrapper:0.2.*
+composer require phoogkamer/cloudsearch-wrapper:0.3.*
 ```
 
 ## Example usage

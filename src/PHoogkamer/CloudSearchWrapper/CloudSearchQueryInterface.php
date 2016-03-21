@@ -1,11 +1,14 @@
-<?php namespace PHoogkamer\CloudSearchWrapper;
+<?php
+
+namespace PHoogkamer\CloudSearchWrapper;
 
 /**
  * Interface CloudSearchQueryInterface
  *
  * @package PHoogkamer\CloudSearchWrapper
  */
-interface CloudSearchQueryInterface {
+interface CloudSearchQueryInterface
+{
 
     /**
      * @return string
@@ -62,7 +65,34 @@ interface CloudSearchQueryInterface {
     public function getSort();
 
     /**
+     * @param $cursor
+     */
+    public function setCursor($cursor);
+
+    /**
+     * @return string
+     */
+    public function getCursor();
+
+    /**
+     * @param bool|true $shouldUseCursor
+     */
+    public function useCursor($shouldUseCursor = true);
+
+    /**
      * @return bool
      */
     public function facetIsEmpty();
+
+    /**
+     * @return string
+     */
+    public function getQueryOptions();
+
+    /**
+     * @param string $key
+     * @param string $value
+     * @return void
+     */
+    public function setQueryOption($key, $value);
 }

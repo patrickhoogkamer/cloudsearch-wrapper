@@ -1,4 +1,6 @@
-<?php namespace PHoogkamer\CloudSearchWrapper;
+<?php
+
+namespace PHoogkamer\CloudSearchWrapper;
 
 /**
  * Used to construct a simple query used by CloudSearchClient.
@@ -7,8 +9,8 @@
  *
  * @package PHoogkamer\CloudSearchWrapper
  */
-class CloudSearchSimpleQuery extends CloudSearchQuery implements CloudSearchQueryInterface{
-
+class CloudSearchSimpleQuery extends CloudSearchQuery implements CloudSearchQueryInterface
+{
 
     /**
      * @return string

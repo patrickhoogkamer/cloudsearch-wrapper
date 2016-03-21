@@ -1,4 +1,6 @@
-<?php namespace PHoogkamer\CloudSearchWrapper;
+<?php
+
+namespace PHoogkamer\CloudSearchWrapper;
 
 /**
  * Used to construct a structured query used by CloudSearchClient.
@@ -7,8 +9,8 @@
  *
  * @package PHoogkamer\CloudSearchWrapper
  */
-class CloudSearchStructuredQuery extends CloudSearchQuery implements CloudSearchQueryInterface{
-
+class CloudSearchStructuredQuery extends CloudSearchQuery implements CloudSearchQueryInterface
+{
 
     /**
      * @return string
@@ -26,7 +28,6 @@ class CloudSearchStructuredQuery extends CloudSearchQuery implements CloudSearch
         $this->query = 'matchall';
     }
 
-
     /**
      * Add a field to query, add string value by setting $isString as true.
      *
@@ -36,8 +37,7 @@ class CloudSearchStructuredQuery extends CloudSearchQuery implements CloudSearch
      */
     public function addField($key, $value, $isString = false)
     {
-        if($isString)
-        {
+        if ($isString) {
             $value = "'{$value}'";
         }
 
@@ -58,14 +58,10 @@ class CloudSearchStructuredQuery extends CloudSearchQuery implements CloudSearch
     {
         $field = $key . ':';
 
-        if(is_null($from))
-        {
+        if (is_null($from)) {
             $field .= '{';
-        }
-        else
-        {
-            if($isString)
-            {
+        } else {
+            if ($isString) {
                 $from = "'{$from}'";
             }
 
@@ -74,14 +70,10 @@ class CloudSearchStructuredQuery extends CloudSearchQuery implements CloudSearch
 
         $field .= ',';
 
-        if(is_null($to))
-        {
+        if (is_null($to)) {
             $field .= '}';
-        }
-        else
-        {
-            if($isString)
-            {
+        } else {
+            if ($isString) {
                 $to = "'{$to}'";
             }
             $field .= $to . ']';
@@ -99,8 +91,7 @@ class CloudSearchStructuredQuery extends CloudSearchQuery implements CloudSearch
     {
         $lastChar = mb_substr($this->query, -1);
 
-        if($lastChar != '(' && $lastChar != ' ')
-        {
+        if ($lastChar != '(' && $lastChar != ' ') {
             $field = ' ' . $field;
         }
 
@@ -152,8 +143,7 @@ class CloudSearchStructuredQuery extends CloudSearchQuery implements CloudSearch
      */
     public function getQuery()
     {
-        if(empty($this->query))
-        {
+        if (empty($this->query)) {
             $this->query = 'matchall';
         }
 

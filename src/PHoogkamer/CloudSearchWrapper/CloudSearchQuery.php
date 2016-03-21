@@ -1,11 +1,14 @@
-<?php namespace PHoogkamer\CloudSearchWrapper;
+<?php
+
+namespace PHoogkamer\CloudSearchWrapper;
 
 /**
  * Class CloudSearchQuery
  *
  * @package PHoogkamer\CloudSearchWrapper
  */
-abstract class CloudSearchQuery implements CloudSearchQueryInterface{
+abstract class CloudSearchQuery implements CloudSearchQueryInterface
+{
 
     /**
      * Concatenated structured query.
@@ -13,18 +16,21 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface{
      * @var string
      */
     protected $query;
+
     /**
      * The query size.
      *
      * @var int
      */
     private $size = 10;
+
     /**
      * The query offset
      *
      * @var int
      */
     private $start = 0;
+
     /**
      * The facet fields used for the query.
      *
@@ -35,7 +41,17 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface{
     /**
      * @var string
      */
+    private $cursor;
+
+    /**
+     * @var string
+     */
     private $sort = '_score desc';
+
+    /**
+     * @var array
+     */
+    private $queryOptions;
 
     public abstract function getQueryParserType();
 
@@ -46,7 +62,7 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface{
      */
     public function setSize($size)
     {
-        $this->size = (int)$size;
+        $this->size = (int) $size;
     }
 
     /**
@@ -66,7 +82,7 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface{
      */
     public function setStart($start)
     {
-        $this->start = (int)$start;
+        $this->start = (int) $start;
     }
 
     /**
@@ -94,8 +110,7 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface{
      */
     public function facetIsEmpty()
     {
-        if(is_null($this->facet))
-        {
+        if (is_null($this->facet)) {
             return true;
         }
 
@@ -126,6 +141,40 @@ abstract class CloudSearchQuery implements CloudSearchQueryInterface{
     public function getSort()
     {
         return $this->sort;
+    }
+
+    public function setCursor($cursor)
+    {
+        $this->cursor = $cursor;
+    }
+
+    public function getCursor()
+    {
+        return $this->cursor;
+    }
+
+    public function useCursor($shouldUseCursor = true)
+    {
+        if ($shouldUseCursor && empty($this->cursor)) {
+            $this->cursor = 'initial';
+        } else {
+            $this->cursor = null;
+        }
+    }
+
+    public function setQueryOption($key,$value)
+    {
+        $this->queryOptions[$key] = $value;
+    }
+
+    public function getQueryOptions()
+    {
+        if(is_array($this->queryOptions) && count($this->queryOptions) > 0)
+        {
+            return json_encode($this->queryOptions);
+        } else {
+            return '';
+        }
     }
 
     /**

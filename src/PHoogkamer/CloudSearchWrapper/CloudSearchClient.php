@@ -34,7 +34,7 @@ class CloudSearchClient
     public function __construct($endpoint, $key, $secret)
     {
         $this->pushClient = CloudSearchDomainClient::factory([
-            'base_url' => $endpoint,
+            'endpoint' => $endpoint,
             'key'      => $key,
             'secret'   => $secret,
             'version'  => '2013-01-01'
@@ -53,9 +53,10 @@ class CloudSearchClient
     public function setPushClient($endpoint, $key, $secret)
     {
         $this->pushClient = CloudSearchDomainClient::factory([
-            'base_url' => $endpoint,
+            'endpoint' => $endpoint,
             'key'      => $key,
-            'secret'   => $secret
+            'secret'   => $secret,
+            'version'  => '2013-01-01'
         ]);
     }
 

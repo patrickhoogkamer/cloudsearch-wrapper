@@ -36,7 +36,8 @@ class CloudSearchClient
         $this->pushClient = CloudSearchDomainClient::factory([
             'base_url' => $endpoint,
             'key'      => $key,
-            'secret'   => $secret
+            'secret'   => $secret,
+            'version'  => '2013-01-01'
         ]);
 
         $this->searchClient = $this->pushClient;

@@ -3,6 +3,7 @@
 namespace PHoogkamer\CloudSearchWrapper;
 
 use Aws\CloudSearchDomain\CloudSearchDomainClient;
+use Aws\Result;
 use Closure;
 
 /**
@@ -35,8 +36,10 @@ class CloudSearchClient
     {
         $this->pushClient = CloudSearchDomainClient::factory([
             'endpoint' => $endpoint,
-            'key'      => $key,
-            'secret'   => $secret,
+            'credentials' => [
+                'key'      => $key,
+                'secret'   => $secret
+            ],
             'version'  => '2013-01-01'
         ]);
 
@@ -54,8 +57,10 @@ class CloudSearchClient
     {
         $this->pushClient = CloudSearchDomainClient::factory([
             'endpoint' => $endpoint,
-            'key'      => $key,
-            'secret'   => $secret,
+            'credentials' => [
+                'key'      => $key,
+                'secret'   => $secret
+            ],
             'version'  => '2013-01-01'
         ]);
     }
@@ -70,9 +75,12 @@ class CloudSearchClient
     public function setSearchClient($endpoint, $key, $secret)
     {
         $this->searchClient = CloudSearchDomainClient::factory([
-            'base_url' => $endpoint,
-            'key'      => $key,
-            'secret'   => $secret
+            'endpoint' => $endpoint,
+            'credentials' => [
+                'key'      => $key,
+                'secret'   => $secret
+            ],
+            'version'  => '2013-01-01'
         ]);
     }
 
@@ -143,12 +151,12 @@ class CloudSearchClient
     }
 
     /**
-     * @param \Guzzle\Service\Resource\Model $awsResult
-     * @param                                $resultDocument
+     * @param Result $awsResult
+     * @param        $resultDocument
      * @return CloudSearchResult
      * @throws \Exception
      */
-    private function convertResult(\Guzzle\Service\Resource\Model $awsResult, $resultDocument)
+    private function convertResult(Result $awsResult, $resultDocument)
     {
         $time         = $awsResult->getPath('status/timems');
         $amountOfHits = $awsResult->getPath('hits/found');

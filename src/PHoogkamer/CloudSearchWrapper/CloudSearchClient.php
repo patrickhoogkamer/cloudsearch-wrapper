@@ -251,6 +251,8 @@ class CloudSearchClient
      */
     private function loopOverHits(Closure $closure, $result)
     {
+        $continueLooping = false;
+        
         foreach ($result->getHits() as $hit) {
             //If return is false: continue current set, then stop
             $continueLooping = $closure($hit);

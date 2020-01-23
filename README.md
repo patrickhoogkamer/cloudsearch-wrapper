@@ -51,5 +51,3 @@ $query->addAnd(function(CloudSearchStructuredQuery $query)
 ```
 
 Note that it's easy to nest in an elegant way.
-
-In active development!
